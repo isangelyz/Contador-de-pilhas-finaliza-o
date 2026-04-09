@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Gaveta Limpa - Impacto Ambiental</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #3a6e45, #020617);
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 32px;
+}
+
+#contador {
+    font-size: 22px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+#balanca {
+    position: relative;
+    width: 320px;
+    height: 420px;
+    margin: 30px auto;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(34,197,94,0.2);
+    overflow: hidden;
+}
+
+#pote {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to top, #22c55e, #4ade80);
+    transition: height 0.4s ease;
+}
+
+.pilha {
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    border-radius: 6px;
+    background: linear-gradient(#222, #aaa);
+    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+    top: -80px;
+    left: calc(50% - 15px);
+    animation: cair 0.7s cubic-bezier(.3,.7,.4,1);
+}
+
+@keyframes cair {
+    0% { top: -80px; transform: rotate(0deg); }
+    70% { transform: rotate(10deg); }
+    100% { top: 340px; transform: rotate(0deg); }
+}
+
+#mensagem {
+    margin-top: 20px;
+    font-size: 70px;
+    min-height: 60px;
+    padding: 10px;
+    transition: opacity 0.3s;
+}
+
+.glow {
+    animation: glow 0.5s;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 0px #22c55e; }
+    50% { box-shadow: 0 0 40px #22c55e; }
+    100% { box-shadow: 0 0 0px #22c55e; }
+}
+</style>
+</head>
+
+<body>
+
+<br><br><br>
+<h1>Gaveta Limpa</h1>
+<p>Aperte <b>ESPAÇO</b> para descartar uma pilha (adequadamente)</p>
+<p>Equipe 3 | FINALIZAÇÃO</p>
+
+<div id="contador">Pilhas descartadas: 0 / 100</div>
+
+<div id="balanca">
+    <div id="pote"></div>
+</div>
+
+<div id="mensagem"></div>
+<br>
+<br>
+<br>
+<br><br>
+<!-- Sons -->
+<audio id="somQueda" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d0c6d6c5c.mp3"></audio>
+<audio id="somFinal" src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_c8a4d3d7d4.mp3"></audio>
+
+<script>
+let contador = 0;
+
+const mensagens = ["Reduz a contaminação do solo","Evita a poluição de rios e lagos","Diminui a liberação de metais pesados","Preserva a biodiversidade","Protege ecossistemas aquáticos","Evita a bioacumulação em animais","Reduz a poluição do lençol freático","Minimiza impactos em áreas agrícolas","Diminui o risco de desertificação local","Ajuda na conservação de florestas","Evita contaminação de alimentos","Reduz resíduos tóxicos no meio ambiente","Contribui para cidades mais limpas","Evita danos a micro-organismos do solo","Ajuda no equilíbrio ecológico","Reduz a degradação ambiental","Evita a liberação de gases tóxicos","Diminui o impacto em áreas urbanas","Ajuda na preservação de habitats","Reduz a poluição atmosférica indireta","Evita intoxicação por mercúrio","Reduz risco de doenças neurológicas","Diminui contaminação por chumbo","Evita problemas renais","Protege o sistema nervoso","Reduz riscos de câncer associados a metais","Evita contaminação da água potável","Protege trabalhadores da limpeza urbana","Diminui exposição a substâncias tóxicas","Evita problemas respiratórios","Reduz doenças causadas por poluição","Protege comunidades vulneráveis","Melhora a qualidade de vida","Evita intoxicações alimentares indiretas","Reduz riscos para crianças","Evita problemas de desenvolvimento","Protege gestantes e bebês","Reduz acidentes com resíduos perigosos","Melhora a saúde pública","Diminui custos com saúde","Permite a reciclagem de materiais valiosos","Reduz custos de extração mineral","Gera empregos na reciclagem","Estimula a economia circular","Reduz gastos com limpeza ambiental","Evita custos de descontaminação","Incentiva inovação tecnológica","Fortalece empresas sustentáveis","Gera renda para cooperativas","Reduz desperdício de recursos","Aumenta eficiência produtiva","Estimula novos mercados verdes","Reduz custos de saúde pública","Valoriza resíduos como matéria-prima","Atrai investimentos sustentáveis","Incentiva responsabilidade empresarial","Reduz impacto financeiro de desastres ambientais","Promove desenvolvimento sustentável","Incentiva logística reversa","Gera economia a longo prazo","Promove consciência ambiental","Incentiva o consumo responsável","Educa sobre sustentabilidade","Fortalece cidadania","Engaja comunidades","Estimula hábitos ecológicos","Incentiva descarte correto de outros resíduos","Aumenta participação social","Promove campanhas educativas","Conscientiza jovens e crianças","Estimula projetos escolares","Fortalece políticas públicas","Melhora comportamento coletivo","Incentiva atitudes sustentáveis no dia a dia","Cria cultura de reciclagem","Estimula voluntariado","Promove responsabilidade social","Ajuda na formação de cidadãos críticos","Reduz o descarte irregular","Incentiva ações comunitárias","Contribui para o desenvolvimento sustentável","Ajuda a cumprir metas ambientais globais","Reduz impactos das mudanças climáticas","Diminui exploração de recursos naturais","Preserva recursos para futuras gerações","Incentiva práticas sustentáveis globais","Reduz pegada ecológica","Ajuda no cumprimento de políticas ambientais","Promove equilíbrio entre economia e natureza","Fortalece ações contra poluição global","Reduz resíduos perigosos no planeta","Contribui para cidades sustentáveis","Ajuda na proteção da água global","Diminui danos ambientais cumulativos","Promove responsabilidade ambiental global","Incentiva cooperação internacional","Reduz impacto industrial negativo","Fortalece a sustentabilidade urbana","Ajuda na preservação da vida no planeta","Garante um futuro mais saudável"];
+
+const somQueda = document.getElementById("somQueda");
+const somFinal = document.getElementById("somFinal");
+
+function tocarSom(audio) {
+    audio.currentTime = 0;
+    audio.play();
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space" && contador < 100) {
+        contador++;
+
+        document.getElementById("contador").innerText = `Pilhas descartadas: ${contador} / 100`;
+
+        let pilha = document.createElement("div");
+        pilha.classList.add("pilha");
+        document.getElementById("balanca").appendChild(pilha);
+
+        setTimeout(() => pilha.remove(), 700);
+
+        document.getElementById("pote").style.height = contador + "%";
+
+        let msg = document.getElementById("mensagem");
+        msg.style.opacity = 0;
+        setTimeout(() => {
+            msg.innerText = mensagens[contador - 1];
+            msg.style.opacity = 1;
+        }, 200);
+
+        document.getElementById("balanca").classList.add("glow");
+        setTimeout(() => {
+            document.getElementById("balanca").classList.remove("glow");
+        }, 500);
+
+        tocarSom(somQueda);
+
+        if (contador === 100) {
+            msg.innerText = "🎉 Impacto máximo atingido!";
+            tocarSom(somFinal);
+        }
+    }
+});
+</script>
+
+</body>
+</html>
